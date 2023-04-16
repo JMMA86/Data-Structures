@@ -1,7 +1,7 @@
 package Exceptions;
 
 public class QueueNullException extends Exception{
-    private String message;
+    private final String message;
 
     public QueueNullException(String message) {
         super(message);

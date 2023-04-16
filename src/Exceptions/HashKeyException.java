@@ -1,9 +1,9 @@
 package Exceptions;
 
-public class HashNullException extends Exception{
-    private String message;
+public class HashKeyException extends Exception{
+    private final String message;
 
-    public HashNullException(String message) {
+    public HashKeyException(String message) {
         super(message);
         this.message = message;
     }

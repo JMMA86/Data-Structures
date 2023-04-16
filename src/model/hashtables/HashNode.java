@@ -1,8 +1,8 @@
 package model.hashtables;
 
 public class HashNode<K,T> {
-    private K key;
-    private T value;
+    private final K key;
+    private final T value;
     private HashNode<K,T> next;
     private HashNode<K,T> previous;
     public HashNode(K key, T value) {
@@ -16,16 +16,8 @@ public class HashNode<K,T> {
         return key;
     }
 
-    public void setKey(K key) {
-        this.key = key;
-    }
-
     public T getValue() {
         return value;
-    }
-
-    public void setValue(T value) {
-        this.value = value;
     }
 
     public HashNode<K, T> getNext() {

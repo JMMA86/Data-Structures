@@ -1,9 +1,9 @@
 package model.hashtables;
 
-import Exceptions.HashNullException;
+import Exceptions.HashKeyException;
 
 public interface HashTable<K,T> {
-    public void insert(K key, T value);
-    public T search(K key) throws HashNullException;
-    public void delete(K key) throws HashNullException;
+    void insert(K key, T value) throws HashKeyException;
+    T search(K key);
+    void delete(K key);
 }

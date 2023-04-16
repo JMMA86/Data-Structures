@@ -1,7 +1,7 @@
 package model.stacks;
 
 public class StackNode<T> {
-    private T value;
+    private final T value;
     private StackNode<T> next;
 
     public StackNode(T value) {

@@ -16,7 +16,7 @@ public class StackNodeImplementation<T> implements Stack<T> {
     @Override
     public void push(T item) {
         if (top == null) {
-            top = new StackNode<T>(item);
+            top = new StackNode<>(item);
         } else {
             StackNode<T> aux = new StackNode<>(item);
             aux.setNext(top);

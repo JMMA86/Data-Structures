@@ -1,6 +1,6 @@
 package model.hashtables;
 
-import Exceptions.HashNullException;
+import Exceptions.HashKeyException;
 
 //Hashtable implementation using chaining
 public class HashTableImplementation<K,T> implements HashTable<K,T>{
@@ -26,28 +26,32 @@ public class HashTableImplementation<K,T> implements HashTable<K,T>{
     }
 
     @Override
-    public void insert(K key, T value) {
+    public void insert(K key, T value) throws HashKeyException {
         int i = hashFunction(key);
         HashNode<K,T> newNode = new HashNode<>(key, value);
-        if (nodes[i] != null) {
-            HashNode<K, T> aux = nodes[i];
-            newNode.setNext(aux);
-            aux.setPrevious(newNode);
+        if (search(key) == null) {
+            if (nodes[i] != null) {
+                HashNode<K, T> aux = nodes[i];
+                newNode.setNext(aux);
+                aux.setPrevious(newNode);
+            }
+            nodes[i] = newNode;
+        } else {
+            throw new HashKeyException("Error. Duplicated key.");
         }
-        nodes[i] = newNode;
     }
 
     @Override
-    public T search(K key) throws HashNullException {
+    public T search(K key) {
         HashNode<K,T> posNode = nodes[hashFunction(key)];
         if (posNode == null) {
-            throw new HashNullException("Key does not correspond to any node.");
+            return null;
         } else {
             if (posNode.getKey() == key) {
                 return posNode.getValue();
             } else {
                 if (posNode.getNext() == null) {
-                    throw new HashNullException("Key does not correspond to any node.");
+                    return null;
                 } else {
                     return search(posNode.getNext(), key);
                 }
@@ -55,12 +59,12 @@ public class HashTableImplementation<K,T> implements HashTable<K,T>{
         }
     }
 
-    public T search(HashNode<K,T> current, K key) throws HashNullException {
+    public T search(HashNode<K,T> current, K key) {
         if (current.getKey() == key) {
             return current.getValue();
         } else {
             if (current.getNext() == null) {
-                throw new HashNullException("Key does not correspond to any node.");
+                return null;
             } else {
                 return search(current.getNext(), key);
             }
@@ -68,35 +72,31 @@ public class HashTableImplementation<K,T> implements HashTable<K,T>{
     }
 
     @Override
-    public void delete(K key) throws HashNullException {
+    public void delete(K key) {
         int index = hashFunction(key);
         HashNode<K,T> posNode = nodes[index];
-        if (posNode == null) {
-            throw new HashNullException("Key does not correspond to any node.");
-        } else {
+        if (posNode != null) {
             if (posNode.getKey() == key) {
                 nodes[index] = posNode.getNext();
             } else {
-                if (posNode.getNext() == null) {
-                    throw new HashNullException("Key does not correspond to any node.");
-                } else {
+                if (posNode.getNext() != null) {
                     delete(posNode.getNext(), key);
                 }
             }
         }
     }
 
-    public void delete(HashNode<K,T> current, K key) throws HashNullException {
+    public void delete(HashNode<K,T> current, K key) {
         if (current != null) {
             if (current.getKey() == key) {
                 HashNode<K,T> aux = current.getPrevious();
                 aux.setNext(current.getNext());
-                current.getNext().setPrevious(aux);
+                if (current.getNext() != null) {
+                    current.getNext().setPrevious(aux);
+                }
             } else {
                 delete(current.getNext(), key);
             }
-        } else {
-            throw new HashNullException("Key does not correspond to any node.");
         }
     }
 }

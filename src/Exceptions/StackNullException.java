@@ -1,7 +1,7 @@
 package Exceptions;
 
 public class StackNullException extends Exception{
-    private String message;
+    private final String message;
 
     public StackNullException(String message) {
         super(message);
